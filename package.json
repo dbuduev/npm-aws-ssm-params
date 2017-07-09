@@ -1,6 +1,6 @@
 {
   "name": "aws-ssm-params",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get parameters from the AWS SSM Parameter Store by path",
   "main": "index.js",
   "scripts": {
