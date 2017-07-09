@@ -21,3 +21,7 @@ ssm(ssmParams,awsParams).then(function(parameters){
 ## require('aws-ssm-params')(ssmParams, awsParams)
 - `ssmParams`: Passed to the *getParametersByPath* method (http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/SSM.html#getParametersByPath-property)
 - `awsParams`: Passed to AWS SDK for JavaScript AWS.Config class (http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html)
+
+# Required IAM Permissions
+- `ssm:DescribeParameters`
+- `ssm:GetParametersByPath`
