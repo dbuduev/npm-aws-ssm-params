@@ -5,18 +5,26 @@ module.exports = function(ssmParams,awsParams) {
         parameters = {};
 
     return new Promise(function(resolve, reject) {
-        ssm.getParametersByPath(ssmParams, function(err, data) {
-            if (err) {
-                console.log(err, err.stack); // an error occurred
-                reject(err, err.stack)
-            } else {
-                data.Parameters.forEach(function(element) {
-                    var key = element.Name.replace(ssmParams.Path+'/','')
-                    parameters[key] = element.Value
-                }, this);
-            
-                resolve(parameters)
-            }
-        });
+        var getParams = (ssmParams) => {
+            ssm.getParametersByPath(ssmParams, function(err, data) {
+                if (err) {
+                    console.log(err, err.stack); // an error occurred
+                    reject(err, err.stack)
+                } else {
+                    data.Parameters.forEach(function(element) {
+                        var key = element.Name.replace(ssmParams.Path+'/','')
+                        parameters[key] = element.Value
+                    }, this);
+                    
+                    if(data.NextToken) {
+                        ssmParams.NextToken = data.NextToken
+                        getParams(ssmParams)
+                    } else {
+                        resolve(parameters)
+                    }
+                }
+            });      
+        }
+        getParams(ssmParams)
     });
 }
